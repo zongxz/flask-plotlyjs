@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!-- Latest compiled and minified plotly.js JavaScript -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+<!-- OR use a specific plotly.js release (e.g. version 1.52.3) -->
+<script src="https://cdn.plot.ly/plotly-1.52.3.min.js" charset="utf-8"></script>
+
+<!-- OR an un-minified version is also available -->
+<script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
+<body>
+    <div id="tester" style="width:600px;height:250px;"></div>
+</body>
+<script>
+    const TESTER = document.getElementById('tester');
+    const data =  {{ msg | safe }};
+    Plotly.plot(TESTER, data, {});
+</script>
+</html>
