@@ -16,7 +16,7 @@ def humanEPCExpress():
     res = VisualizeHumanEPCExpress.main()
     print(type(res))
     msgJson = json.dumps(res, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('test.html', msg=msgJson)\
+    return render_template('HumanEPCExpressPlot.html', msg=msgJson)\
 
 
 @app.route('/VisualizeGtexGeneExpress')
@@ -24,7 +24,7 @@ def gtexGeneExpress():
     res = VisualizeGtexGeneExpress.main()
     print(type(res))
     msgJson = json.dumps(res, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('test.html', msg=msgJson)
+    return render_template('GtexGeneExpressPlot.html', msg=msgJson)
 
 
 if __name__ == '__main__':
