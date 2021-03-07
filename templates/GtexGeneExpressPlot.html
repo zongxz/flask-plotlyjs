@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 <!-- Latest compiled and minified plotly.js JavaScript -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
@@ -14,11 +14,11 @@
 <!-- OR an un-minified version is also available -->
 <script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
 <body>
-    <div id="tester" style="width:600px;height:250px;"></div>
+    <h2>Gene-level expression in different tissues</h2>
+    <div style="border:2px solid #663333"></div>
+    <div id="gtexGeneExpress_box"></div>
+    <script src="../static/js/gtexGeneExpress.js"></script>
+
 </body>
-<script>
-    const TESTER = document.getElementById('tester');
-    const data =  {{ msg | safe }};
-    Plotly.plot(TESTER, data, {});
-</script>
+
 </html>

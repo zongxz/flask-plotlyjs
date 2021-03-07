@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 </head>
-
 <!-- Latest compiled and minified plotly.js JavaScript -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
@@ -14,11 +14,14 @@
 <!-- OR an un-minified version is also available -->
 <script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
 <body>
-    <div id="tester" style="width:600px;height:250px;"></div>
-</body>
-<script>
-    const TESTER = document.getElementById('tester');
-    const data =  {{ msg | safe }};
-    Plotly.plot(TESTER, data, {});
+<div id="humanEPCExpress_box"></div>
+<script src="../static/js/humanEPCExpress.js">
+
 </script>
+{#<script type="text/javascript">#}
+{#    var l = getData();#}
+{#    console.log(l);#}
+{#    #}
+{#</script>#}
+</body>
 </html>
