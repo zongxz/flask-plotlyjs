@@ -1,7 +1,7 @@
 from utils.dbutils import DBConnection
 
 
-def main():
+def getHumanEPCExpressData():
     dbc = DBConnection()
 
     query_filed = {"entrez_id": 1, "symbol": 1, "_id": 0, 'gene_expression': 1}
@@ -18,6 +18,3 @@ def main():
                 if isinstance(human_epc_exp_data, list):
                     expData = human_epc_exp_data[0].get('express_data')
                     return expData
-
-if __name__ == '__main__':
-    main()

@@ -47,19 +47,19 @@ function getData() {
         success: function (data) {
             var tarces = [];
             for (let i = 0; i < data.length; i++) {
-                var item_1 = data[i];
-                var type_1 = '';
-                var datas_1 = [];
-                var period_1 = [];
-                for (var k_1 in item_1) {
-                    type_1 = k_1;
-                    datas_1 = dropx(item_1[k_1]['data']);
-                    period_1 = item_1[k_1]['period']
+                var item = data[i];
+                var type = '';
+                var datas = [];
+                var period = [];
+                for (var k in item) {
+                    type = k;
+                    datas = dropx(item[k]['data']);
+                    period = item[k]['period']
                 }
                 tarces.push({
-                    y: datas_1,
-                    x: get_x(type_1, period_1),
-                    name: type_1,
+                    y: datas,
+                    x: get_x(type, period),
+                    name: type,
                     boxpoints: 'outliers',
                     line: {width: 1},
                     type: 'box'
@@ -67,19 +67,19 @@ function getData() {
             }
             var len = tarces.length;
             for (let i = 0; i < data.length; i++) {
-                var item_2 = data[i];
-                var type_2 = '';
-                var datas_2 = [];
-                var period_2 = [];
-                for (var k_2 in item_2) {
-                    type_2 = k_2;
-                    datas_2 = normalized(item_2[k_2]['data']);
-                    period_2 = item_2[k_2]['period']
+                var item = data[i];
+                var type = '';
+                var datas = [];
+                var period = [];
+                for (var k in item) {
+                    type = k;
+                    datas = normalized(item[k]['data']);
+                    period = item[k]['period']
                 }
                 tarces.push({
-                    y: datas_2,
-                    x: get_x(type_2, period_2),
-                    name: type_2,
+                    y: datas,
+                    x: get_x(type, period),
+                    name: type,
                     boxpoints: 'outliers',
                     line: {width: 1},
                     type: 'box',

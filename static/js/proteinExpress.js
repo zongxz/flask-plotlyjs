@@ -109,18 +109,19 @@ function getData() {
                     for (let j = 0; j < x_item.length; j++) {
                         if (["brain", 'arachnoid cyst', 'cerebral cortex', 'cerebrospinal fluid',
                             'prefrontal cortex', 'spinal cord'].includes(x_item[j])) {
-                            x_item[j] = "<b>" + capitalize(x_item[j]) + "</b>"
+                            x_item[j] = "<b>" + capitalize(x_item[j]) + "</b>";
                         } else {
-                            x_item[j] = capitalize(x_item[j])
+                            x_item[j] = capitalize(x_item[j]);
                         }
                     }
                     trace.push({
                         x: x_item,
                         y: y_item,
                         name: id_item,
+                        type:'bar',
                         hoverinfo: 'all',
                         error_y: {
-                            type: 'box',
+                            type: 'data',
                             array: array_item,
                             visible: true,
                         }

@@ -1,6 +1,6 @@
 from utils.dbutils import DBConnection
 
-def main():
+def getGexGeneExpressData():
 
     dbc = DBConnection()
 
@@ -18,6 +18,3 @@ def main():
                 if isinstance(gtex_brain_data, list):
                     gtex_brain_data_dict = gtex_brain_data[0]
                     return gtex_brain_data_dict
-
-if __name__ == '__main__':
-    main()

@@ -60,10 +60,10 @@ function getData() {
         success: function (data) {
             var tarces = [];
             for (let i = 0; i < data.length; i++) {
-                var item_1 = data[i];
-                var dataType = item_1['type'];
-                var datas = dropx(item_1['data']);
-                var period = item_1['period'];
+                var item = data[i];
+                var dataType = item['type'];
+                var datas = dropx(item['data']);
+                var period = item['period'];
                 tarces.push({
                     y: datas,
                     x: get_x(dataType, period),
@@ -77,15 +77,15 @@ function getData() {
             }
             var len = tarces.length;
             for (let i = 0; i < data.length; i++) {
-                var item_2 = data[i];
-                var dataType_2 = item_2['type'];
-                var datas_2 = normalized(item_2['data']);
-                var period_2 = item_2['period'];
+                var item = data[i];
+                var dataType = item['type'];
+                var datas = normalized(item['data']);
+                var period_2 = item['period'];
                 tarces.push({
-                    y: datas_2,
-                    x: get_x(dataType_2, period_2),
+                    y: datas,
+                    x: get_x(dataType, period_2),
                     visible: false,
-                    name: dataType_2,
+                    name: dataType,
                     boxpoints: "outliers",
                     line: {
                         width: 1

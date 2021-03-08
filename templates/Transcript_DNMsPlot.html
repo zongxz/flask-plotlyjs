@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
 
 <!-- OR use a specific plotly.js release (e.g. version 1.52.3) -->
@@ -13,12 +13,11 @@
 <!-- OR an un-minified version is also available -->
 <script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
 <body>
-    <div id="t"></div>
+
+<h2 style="color: #663333">Visualization of de novo variants in transcripts</h2>
+<div style="border:2px solid #663333"></div>
+<div id="Transcript_DNM_box"></div>
+<script src="../static/js/transcript_DNMs.js"></script>
 </body>
-<script type="text/javascript">
-    const TESTER = document.getElementById('t');
-    const data = {{ data | safe }};
-    const layout = {{ layout | safe }};
-    Plotly.plot(TESTER, data, layout);
-</script>
+
 </html>

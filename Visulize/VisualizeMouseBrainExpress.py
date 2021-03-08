@@ -4,7 +4,7 @@ import plotly.graph_objs as go
 
 from utils.dbutils import DBConnection
 
-def main():
+def getMouseBrainExpressData():
     # mainer = MouseBrainExpressPlots('29072')
     # mainer.run()
 
@@ -23,7 +23,3 @@ def main():
                 if isinstance(query_res['gene_expression']['mouse_brain_tpm'], list):
                     expData = query_res['gene_expression']['mouse_brain_tpm'][0].get('expree_data')
                     return expData
-
-
-if __name__ == '__main__':
-    main()
