@@ -12,6 +12,7 @@
     <orderEntry type="library" name="plotly-1.52.3" level="application" />
     <orderEntry type="library" name="d3" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="echarts" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
