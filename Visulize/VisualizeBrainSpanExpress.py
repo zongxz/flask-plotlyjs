@@ -1,19 +1,6 @@
-# -*- encoding: utf-8 -*-
-# -------------------------------------------------------------------------------
-# @file:        VisualizeBrainSpanExpression
-# @Author:      GuoSijia
-# @Purpose:
-# @Created:     2018-09-25
-# @update:      2018-09-25 11:34
-# @Software:    PyCharm
-# -------------------------------------------------------------------------------
-from pyecharts import Bar, Line, Scatter, Overlap, Page
 import pandas as pd
 import math
 import pymongo
-import pyecharts
-import plotly
-import plotly.graph_objs as go
 
 
 class DataStorage:
@@ -24,9 +11,7 @@ class DataStorage:
 
     def __login(self):
         client = pymongo.MongoClient("127.0.0.1", 27017)
-        db = client['Denovo']
-        # db.authenticate("tanxian123", "123456")
-        collection = client['Denovo'][self.name]
+        collection = client['psymukb'][self.name]
         return collection
 
     def FindByID(self, ID):
@@ -143,7 +128,6 @@ class Brain_Dic:
 
 class dict_brainSpan():
     def dict_gene2(self, id, data, brainDic):
-
         brainSpan_key = brainDic.brain_dic()
         data_brainSpan = data['BrainspanX'][0]
         data_brainSpan.pop('ENTREZ_ID')
@@ -158,7 +142,7 @@ class dict_brainSpan():
         """
         max_value = 0
         data = pd.DataFrame({str(id): data_brainSpan_value}, index=data_brainSpan_key).sort_index()[str(id)]
-        # print(data)
+
         max_value = math.log2(max(data) + 1.0)
         new_df = pd.DataFrame(brainSpan_key, index=['#Period index', 'brain region', 'period info']).T
         new_df[['#Period index']] = new_df[['#Period index']].apply(pd.to_numeric)
@@ -180,321 +164,7 @@ class dict_brainSpan():
                 p = new_df.iloc[i, 0]
                 list_special_striatum[p - 2].append(math.log2(data[i] + 1.0))
 
-        # print('*******************')
-        # print(others_type)
-        # print(list_others_data)
-        # print(list_special_striatum)
-        # print(list_special_cortex)
-        # print(max_value)
-        # print('*******************')
         return others_type, list_others_data, list_special_striatum, list_special_cortex, max_value
-
-
-class data_plot(object):
-    '''
-    根据处理后的数据后画图
-    '''
-
-    def __init__(self):
-        pass
-
-    def LineAndBox_plot(self, geneName, others_type, list_others_data,
-                        list_special_striatum, list_special_cortex, max):
-
-        traces = []
-        grid = Page()
-        colors = ['rgb(127,127,127)', 'rgb(188,189,34)', '#BC3C29FF', '#20854EFF',
-                  'rgb(0,0,0)',
-                  'rgb(188,188,34)', 'rgb(144,238,144)']
-        if others_type != 0:
-            """
-            第一张图
-
-            """
-            overlap = Overlap()
-            line_special = Line()
-            # title="\tSpatio-temporal Human Developmental Brain Expression (BrainSpan)",
-            # 				title_pos="left")
-            i = 0
-            es = Scatter(geneName)
-            # print(es)
-            # print('es')
-            attr = ['Early fetal\n8-9PCW', 'Early fetal\n10-12PCW', 'Early mid-fetal\n13PCW-15PCW',
-                    'Early mid-fetal\n16PCW-18PCW',
-                    'Late mid-fetal\n19PCW-23PCW', 'Late fetal\n24PCW-37PCW',
-                    'Neonatal and early infancy\n0M(birth)-5M',
-                    'Late infancy\n6M-11M', 'Early childhood\n1Y-5Y', 'Middle and late childhood\n6Y-11Y',
-                    'Adolescence\n12Y-19Y', 'Young adulthood\n20Y-39Y', 'Middle adulthood\n40Y']
-
-            """
-            画多数值类型的拟合曲线
-            """
-            """
-            1.求和 ；2.取平均值；3.画smooth
-            """
-            """
-            1-1 striatum
-            """
-            list_tmp_striatum_ave = [0 for i in range(13)]
-            list_tmp_striatum_num = [0 for i in range(13)]
-            for i in range(13):
-                if list_special_striatum[i] != []:
-                    for item in list_special_striatum[i]:
-                        list_tmp_striatum_ave[i] += item
-                        list_tmp_striatum_num[i] += 1
-                if list_special_striatum[i] == []:
-                    list_tmp_striatum_ave[i] = ''
-            for i in range(13):
-                if list_tmp_striatum_ave[i] != '':
-                    list_tmp_striatum_ave[i] = list_tmp_striatum_ave[i] / list_tmp_striatum_num[i]
-            # print(list_tmp_striatum_ave)
-            line_special.add("striatum",
-                             attr,
-                             list_tmp_striatum_ave,
-                             yaxis_max=math.ceil(max),
-                             is_smooth=True,
-                             xaxis_interval=0,
-                             xaxis_type="category",
-                             xaxis_rotate=-30,
-                             xaxis_label_textsize=9,
-                             legend_selectedmode=False,
-                             legend_pos="top",
-                             legend_orient="vertical")
-
-            traces.append(go.Scatter(
-                x=attr,
-                y=list_tmp_striatum_ave,
-                name='striatum',
-                line=dict(
-                    shape='spline',
-                    color='rgb(155, 48, 255)'
-                ),
-                mode="lines",
-            ))
-            """
-            1-2 cortex
-            """
-            list_tmp_cortex_ave = [0 for i in range(13)]
-            list_tmp_cortex_num = [0 for i in range(13)]
-            for i in range(13):
-                if list_special_cortex[i] != []:
-                    for item in list_special_cortex[i]:
-                        list_tmp_cortex_ave[i] += item
-                        list_tmp_cortex_num[i] += 1
-                if list_special_cortex[i] == []:
-                    list_tmp_cortex_ave[i] = ''
-            for i in range(13):
-                if list_tmp_cortex_ave[i] != '':
-                    list_tmp_cortex_ave[i] = list_tmp_cortex_ave[i] / list_tmp_cortex_num[i]
-            # print(list_tmp_cortex_ave)
-            traces.append(go.Scatter(
-                x=attr,
-                y=list_tmp_cortex_ave,
-                name='cortex',
-                line=dict(
-                    shape='spline',
-                    color='rgb(122,197,205)',
-
-                ),
-                mode="lines",
-            ))
-            line_special.add("cortex", attr, list_tmp_cortex_ave,
-                             yaxis_max=math.ceil(max),
-                             is_smooth=True,
-                             xaxis_interval=0,
-                             xaxis_type="category",
-                             xaxis_rotate=-30,
-                             xaxis_label_textsize=9,
-                             legend_selectedmode=False,
-                             yaxis_name='LOG2(RPKM+1)',
-                             yaxis_name_pos='middle'
-                             , legend_pos="10%",
-                             legend_orient="horizontal")
-            overlap.add(line_special)
-
-            """
-            先补齐list
-            """
-            max_length_striatum = 0
-            for item in list_special_striatum:
-                if len(item) >= max_length_striatum:
-                    max_length_striatum = len(item)
-            for i in range(13):
-                if len(list_special_striatum[i]) < max_length_striatum:
-                    for j in range(max_length_striatum - len(list_special_striatum[i])):
-                        list_special_striatum[i].append('')
-            max_length_cortex = 0
-            for item in list_special_cortex:
-                if len(item) >= max_length_cortex:
-                    max_length_cortex = len(item)
-
-            for i in range(13):
-                if len(list_special_cortex[i]) < max_length_cortex:
-                    for j in range(max_length_cortex - len(list_special_cortex[i])):
-                        list_special_cortex[i].append('')
-
-            """
-            画散点
-            """
-            """
-            striatum
-            """
-            for i in range(max_length_striatum):
-                list_tmp_striatum = []
-                for j in range(13):
-                    list_tmp_striatum.append(list_special_striatum[j][i])
-                # print(list_linshi_striatum)
-                traces.append(go.Scatter(
-                    x=attr,
-                    y=list_tmp_striatum,
-                    mode='markers',
-                    marker=dict(
-                        # size=2,
-                        color='rgb(155, 48, 255)',
-                    ),
-                    showlegend=False,
-                    hoverinfo='all',
-                    name='striatum'
-                ))
-                es.add("striatum", attr, list_tmp_striatum,
-                       xaxis_type="category",
-                       xaxis_rotate=-30,
-                       xaxis_interval=0,
-                       legend_selectedmode=False,
-                       yaxis_max=math.ceil(max),
-                       symbol_size=3,
-                       is_legend_show=False,
-                       xaxis_label_textsize=9,
-                       legend_pos="right",
-                       legend_orient="vertical")
-
-            """
-            cortex
-            """
-            for i in range(max_length_cortex):
-                list_linshi_cortex = []
-                for j in range(13):
-                    list_linshi_cortex.append(list_special_cortex[j][i])
-                # print(list_linshi_cortex)
-                traces.append(go.Scatter(
-                    x=attr,
-                    y=list_linshi_cortex,
-                    mode='markers',
-                    marker=dict(
-                        # size=2,
-                        color='rgb(122,197,205)',
-                    ),
-                    showlegend=False,
-                    # hoverinfo='name+x+y',
-                    name='cortex'
-                ))
-                es.add("cortex",
-                       attr,
-                       list_linshi_cortex,
-                       xaxis_type="category",
-                       xaxis_rotate=-30,
-                       xaxis_interval=0,
-                       legend_selectedmode=False,
-                       yaxis_max=max, symbol_size=3,
-                       is_legend_show=False,
-                       xaxis_label_textsize=9,
-                       legend_pos="right",
-                       legend_orient="vertical")
-                # traces.append(go.Scatter(
-                #     x=attr,
-                #     y=list_linshi_cortex,
-                #     mode='markers',
-                #     marker=dict(
-                #         # size=2,
-                #         color='rgb(155, 48, 255)',
-                #     ),
-                #     showlegend=False,
-                # ))
-            overlap.add(es)
-
-            """
-            单数值的线
-            """
-            k = 0
-            for index, item in enumerate(others_type):
-                # print(item)
-                line = Line()
-                # print(list_others_data[k])
-                traces.append(go.Scatter(
-                    x=attr,
-                    y=list_others_data[k],
-                    name=item,
-                    line=dict(
-                        shape='spline',
-                        color=colors[index]
-                    ),
-                    mode="lines",
-                ))
-                line.add(str(item),
-                         attr,
-                         list_others_data[k],
-                         is_smooth=True,
-                         is_symbol_show=False,
-                         xaxis_interval=0,
-                         legend_selectedmode=False,
-                         xaxis_type="category",
-                         yaxis_max=max,
-                         xaxis_rotate=-30,
-                         xaxis_label_textsize=9,
-                         legend_pos="right",
-                         legend_orient="vertical")
-                overlap.add(line)
-                k += 1
-            grid.add(overlap)
-
-        grid.render()
-        # print(traces)
-        layout = go.Layout(
-            paper_bgcolor='rgb(249, 249, 249)',
-            plot_bgcolor='rgb(249, 249, 249)',
-            height=400,
-            width=1000,
-            # title='<b>Gene Express from MouseBrain<b>',
-            hovermode='closest',
-            yaxis=dict(
-                autorange=True,
-                showgrid=True,
-                zeroline=True,
-                # dtick=10,
-                title='log<sub>2</sub> ( RPKM + 1 )',
-                titlefont=dict(
-                    family='Arial',
-                ),
-            ),
-            xaxis=dict(
-                showgrid=True,
-                zeroline=True,
-                showline=True,
-                showticklabels=True,
-                tickangle=25,  # x轴刻度之间距离
-                tickfont=dict(
-                    # size=10,
-                    family='Arial',
-                ),
-                # tickwidth=0.5
-            ),
-            margin=dict(
-                l=50,
-                r=10,
-                b=100,
-                t=30,
-            ),
-            showlegend=True
-        )
-        # for item in traces:
-        #     print(item)
-        fig = go.Figure(data=traces, layout=layout)
-        plotly.offline.plot(fig, show_link=False)
-        try:
-            return plotly.offline.plot(fig, show_link=False, output_type="div", include_plotlyjs=False)
-            # return grid.render_embed()
-        except:
-            return '<div><p>There is no corresponding data published yet,we will update it when such data available.</p></div>'
 
 
 class Main:
@@ -510,7 +180,6 @@ class Main:
         else:
             geneName = data['Symbol']
         brainSpan = dict_brainSpan()
-        draw = data_plot()
         brainDic = Brain_Dic()
         # print(data.get("BrainspanX"))
         if data.get("BrainspanX") == None:
@@ -524,17 +193,18 @@ class Main:
             """
             画图 ；为0表示该没有找到这个基因的数据，不画图
             """
-            return draw.LineAndBox_plot(geneName, others_type, list_others_data,
-                                        list_special_striatum, list_special_cortex, max_value)
+            return [geneName, others_type, list_others_data,
+                    list_special_striatum, list_special_cortex, max_value]
 
 
 def main(ID):
     mainer = Main()
     # 996
     ID = str(ID)
-    # print(mainer.run(ID))
     return mainer.run(ID)
 
 
-if __name__ == '__main__':
-    main("996")
+def getBrainSpanData():
+    data = main("996")
+    print(main("996"))
+    return data

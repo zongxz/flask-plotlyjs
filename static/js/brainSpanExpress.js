@@ -1,40 +1,7 @@
-function get_DNM_color(m_type) {
-    var color;
-    if ((['frameshift deletion', 'frameshift insertion', 'frameshift substitution',
-        'splice-site mutation', 'stopgain'].includes(m_type)) || m_type.startsWith('frameshift')) {
-        color = 'red';
-    } else if ((['nonframeshift deletion', 'nonframeshift insertion', 'nonsynonymous snv',
-        'nonframeshift substitution', 'nonsynonymous SNV', 'strat gain', 'start gain',
-        'stoploss'].includes(m_type)) || m_type.startsWith('nonframeshift')) {
-        color = 'pink';
-    } else if (['synonymous SNV', 'exonic', 'coding complex', 'synonymous snv'].includes(m_type)) {
-        color = 'purple';
-    } else if (['unknown'].includes(m_type)) {
-        color = 'yellow';
-    } else {
-        color = 'blue';
-    }
-    return color;
-}
-
-function get_heights(length) {
-    if (length <= 2) {
-        return 200;
-    } else if (length <= 4) {
-        return 400;
-    } else if (length <= 10) {
-        return 600;
-    } else if (length <= 13) {
-        return 800;
-    } else {
-        return length * 30;
-    }
-}
-
 function getData() {
 
     $.ajax({
-        url: "http://127.0.0.1:5000/Transcript_DNMsData",
+        url: "http://127.0.0.1:5000/brainSpanData",
         type: "GET",
         dataType: "json",
         data: {},
@@ -64,47 +31,27 @@ function getData() {
                     list_tmp_striatum_num.push(0);
                 }
                 for (let j = 0; j < 13; j++) {
-                    if (list_special_striatum[j] !== []) {
-                        for (var item in list_special_striatum[j]) {
-                            list_tmp_striatum_ave[i] += item;
-                            list_tmp_striatum_num[i] += 1;
+                    if (list_special_striatum[j].length !== 0) {
+
+                        for (let k = 0; k < list_special_striatum[j].length; k++) {
+                            var item = list_special_striatum[j][k];
+
+                            list_tmp_striatum_ave[j] += item;
+                            list_tmp_striatum_num[j] += 1;
                         }
                     }
-                    if (list_special_striatum[j] === []) {
-                        list_tmp_striatum_ave[i] = '';
+                    if (list_special_striatum[j].length === 0) {
+                        list_tmp_striatum_ave[j] = '';
+
                     }
                 }
+
                 for (let j = 0; j < 13; j++) {
                     if (list_tmp_striatum_ave[j] !== '') {
                         list_tmp_striatum_ave[j] = list_tmp_striatum_ave[j] / list_tmp_striatum_num[j];
+
                     }
                 }
-                line_special.push({
-                    series: [{
-                        type: 'line',
-                        data: list_tmp_striatum_ave,
-                    }],
-                    title: {
-                        text: "striatum"
-                    },
-                    xAxis: {
-                        data: attr,
-                        type: "category",
-                        interval: 0,
-                        label_textsize: 9,
-                        rotate: -30,
-                    },
-                    yAxis: {
-                        type: 'value',
-                        max: Math.ceil(max),
-                    },
-                    legend: {
-                        selectedmode: false,
-                        pos: "top",
-                        orient: "vertical"
-                    },
-                    is_smooth: true,
-                });
                 traces.push({
                     x: attr,
                     y: list_tmp_striatum_ave,
@@ -123,14 +70,16 @@ function getData() {
                     list_tmp_cortex_num.push(0);
                 }
                 for (let j = 0; j < 13; j++) {
-                    if (list_special_cortex[j] !== []) {
-                        for (var item in list_special_cortex[j]) {
-                            list_tmp_cortex_ave[i] += item;
-                            list_tmp_cortex_num[i] += 1;
+                    if (list_special_cortex[j].length !== 0) {
+                        for (let k = 0; k < list_special_cortex[j].length; k++) {
+                            var item = list_special_cortex[j][k];
+                            list_tmp_cortex_ave[j] += item;
+                            list_tmp_cortex_num[j] += 1;
+
                         }
                     }
-                    if (list_special_cortex[j] === []) {
-                        list_tmp_cortex_ave[i] = '';
+                    if (list_special_cortex[j].length === 0) {
+                        list_tmp_cortex_ave[j] = '';
                     }
                 }
                 for (let j = 0; j < 13; j++) {
@@ -149,61 +98,76 @@ function getData() {
                     },
                     mode: 'lines'
                 });
-                line_special.push({
-                    series: [{
-                        type: 'line',
-                        data: list_tmp_cortex_ave,
-                    }],
-                    title: {
-                        text: "cortex"
-                    },
-                    xAxis: {
-                        data: attr,
-                        type: "category",
-                        interval: 0,
-                        label_textsize: 9,
-                        rotate: -30,
-                    },
-                    yAxis: {
-                        type: 'value',
-                        max: Math.ceil(max),
-                        name:'LOG2(RPKM+1)',
-                        name_pos: "middle",
-                    },
-                    legend: {
-                        selectedmode: false,
-                        pos: '10%',
-                        orient: "horizontal"
-                    },
-                    is_smooth: true,
-                });
+                // line_special.push({
+                //     series: [{
+                //         type: 'line',
+                //         data: list_tmp_cortex_ave,
+                //     }],
+                //     title: {
+                //         text: "cortex"
+                //     },
+                //     xAxis: {
+                //         data: attr,
+                //         type: "category",
+                //         interval: 0,
+                //         label_textsize: 9,
+                //         rotate: -30,
+                //     },
+                //     yAxis: {
+                //         type: 'value',
+                //         max: Math.ceil(max),
+                //         name:'LOG2(RPKM+1)',
+                //         name_pos: "middle",
+                //     },
+                //     legend: {
+                //         selectedmode: false,
+                //         pos: '10%',
+                //         orient: "horizontal"
+                //     },
+                //     is_smooth: true,
+                // });
                 var max_length_striatum = 0;
-                for (var item in list_special_striatum) {
+                for (let j = 0; j < list_special_striatum.length; j++) {
+                    var item = list_special_striatum[j];
                     if (item.length >= max_length_striatum) {
                         max_length_striatum = item.length;
+
                     }
                 }
+
                 for (let j = 0; j < 13; j++) {
-                    if (list_special_striatum[j].length < max_length_striatum) {
-                        for (let k = 0; k < max_length_striatum - list_special_striatum[j].length; k++) {
+                    var len = list_special_striatum[j].length;
+                    if (len < max_length_striatum) {
+                        var l = max_length_striatum - len;
+                        for (let k = 0; k < l; k++) {
                             list_special_striatum[j].push('');
                         }
                     }
                 }
                 var max_length_cortex = 0;
+                for (let j = 0; j < list_special_cortex.length; j++) {
+                    var item = list_special_cortex[j];
+                    if (item.length >= max_length_cortex) {
+                        max_length_cortex = item.length;
+
+                    }
+                }
+
                 for (let j = 0; j < 13; j++) {
-                    if (list_special_cortex[j].length < max_length_cortex) {
-                        for (let k = 0; k < max_length_cortex - list_special_cortex[j].length; k++) {
+                    var len = list_special_cortex[j].length;
+                    if (len < max_length_cortex) {
+                        var l = max_length_cortex - len;
+                        for (let k = 0; k < l; k++) {
                             list_special_cortex[j].push('');
                         }
                     }
                 }
-
                 for (let j = 0; j < max_length_striatum; j++) {
                     var list_tmp_striatum = [];
                     for (let k = 0; k < 13; k++) {
                         list_tmp_striatum.push(list_special_striatum[k][j]);
                     }
+
                     traces.push({
                         x: attr,
                         y: list_tmp_striatum,
@@ -236,7 +200,7 @@ function getData() {
                     });
                 }
                 var t = 0;
-                for (let j = 0; j < others_type.lenth; j++) {
+                for (let j = 0; j < others_type.length; j++) {
                     var item = others_type[i];
                     traces.push({
                         x: attr,
@@ -251,13 +215,11 @@ function getData() {
                     t += 1;
                 }
             }
-
-
             var layout = {
                 paper_bgcolor: 'rgb(249, 249, 249)',
                 plot_bgcolor: 'rgb(249, 249, 249)',
-                width: 800,
-                height: 1000,
+                width: 1000,
+                height: 400,
                 hovermode: "closest",
                 xaxis: {
                     showgrid: true,
@@ -287,7 +249,7 @@ function getData() {
                 },
                 showlegend: true
             }
-            Plotly.plot('Transcript_DNM_box', trace_coding, layout)
+            Plotly.plot('BrainSpanExpress_box', traces, layout)
         },
         error: function (err) {
             console.log("错误！");

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify
 from Visulize import VisualizeHumanEPCExpress, VisualizeGtexGeneExpress, VisualizeMouseBrainExpress,\
-    VisualizeProteinExpress, Transcript_DNMs_visualization, VisualizeDNMsOnRegulatoryElement
+    VisualizeProteinExpress, Transcript_DNMs_visualization, VisualizeDNMsOnRegulatoryElement, VisualizeBrainSpanExpress
 
 app = Flask(__name__)
 
@@ -19,6 +19,17 @@ def humanEPCExpressData():
 @app.route('/VisualizeHumanEPCExpress')
 def humanEPCExpress():
     return render_template('HumanEPCExpressPlot.html')
+
+
+@app.route('/brainSpanData')
+def brainSpanData():
+    data =VisualizeBrainSpanExpress.getBrainSpanData()
+    return jsonify(data)
+
+
+@app.route('/brainSpanExpress')
+def brainSpanExpress():
+    return render_template('BrainSpanExpressPlot.html')
 
 
 @app.route('/gtexGeneExpressData')
