@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
 from Visulize import VisualizeHumanEPCExpress, VisualizeGtexGeneExpress, VisualizeMouseBrainExpress,\
-    VisualizeProteinExpress, Transcript_DNMs_visualization, VisualizeDNMsOnRegulatoryElement, VisualizeBrainSpanExpress
+    VisualizeProteinExpress, Transcript_DNMs_visualization, VisualizeDNMsOnRegulatoryElement, \
+    VisualizeBrainSpanExpress, VisualizeProteinProteinNetwork
 
 app = Flask(__name__)
 
@@ -86,6 +87,12 @@ def DNMsOnRegulatoryData():
 def DNMsOnRegulatory():
     return render_template('DNMsOnRegulatoryPlot.html')
 
+
+@app.route('/GeneDetailPPI')
+def GeneDetailPPI():
+    ppi = VisualizeProteinProteinNetwork.Main()
+    nodes_edges = ppi.run('7468')
+    return render_template('GeneDetail_PPI.html', nodes_edges=nodes_edges, id=7468)
 
 if __name__ == '__main__':
     app.run()

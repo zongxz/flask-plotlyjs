@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.staticfile.org/echarts/5.0.2/echarts.js"></script>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var l = {
+        name: '富国',
+
+        stack: '总量',
+        data: [120, 132, 101, 134],
+    };
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '折线图'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+            }
+        },
+        legend: {
+            data: ['富国', '易方达', '嘉实', '南方', '华夏']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}    //下载为图片
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: true,     //控制折线起点
+            data: ['week1', 'week2', 'week3', 'week4'],
+        },
+        yAxis: {
+            name: '数值',
+            type: 'value',
+            min: 0,    // y轴刻度最小值
+            max: 2000,    // y轴刻度最大值
+            splitNumber: 10,   // y轴刻度间隔个数
+        },
+        series: [
+            {
+                name: l['name'],
+                stack: l['stack'],
+                data: l['data'],
+                type: 'line',
+            },
+            {
+                name: '易方达',
+                type: 'line',
+                stack: '总量',
+                data: [220, 182, 191, 234],
+            },
+            {
+                name: '嘉实',
+                type: 'scatter',
+                stack: '总量',
+                data: [150, 232, 201, 154],
+            },
+            {
+                name: '南方',
+                type: 'line',
+                stack: '总量',
+                data: [320, 332, 301, 334],
+            },
+            {
+                name: '华夏',
+                type: 'bar',
+                stack: '总量',
+                data: [920, 932, 901, 934]
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

@@ -1,17 +1,4 @@
-# -*- encoding: utf-8 -*-
-# -------------------------------------------------------------------------------
-# @file:        Transcript DNM visualization
-# @Author:      GuoSijia
-# @Purpose:     Transcript DNM visualization
-# @Created:     2018-05-24
-# @update:      2018-06-13 13:26
-# @Software:    PyCharm
-# -------------------------------------------------------------------------------
 from itertools import chain
-from Visulize import a
-import plotly
-import plotly.graph_objs as go
-from plotly.graph_objs import *
 from utils.dbutils import DBConnection
 
 

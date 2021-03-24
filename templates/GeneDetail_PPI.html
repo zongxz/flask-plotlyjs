@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<style type="text/css">
+
+    #cy {
+        height: 800px;
+    }
+
+    .container {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    body {
+    {#background-color: rgba(204, 204, 204, 0.1);#}
+    }
+
+    .accordion {
+        border: 1px solid #ffffff;
+        background-color: #ffffff;
+        border-radius: 3px;
+        padding: 20px;
+        margin: 30px;
+    }
+
+    .little_title {
+        color: #663333;
+        font-size: 24px;
+        font-family: "Verdana";
+        padding: 5px;
+        border-bottom: 3px solid #663333;
+    }
+
+    .col-md-12 {
+        margin-top: 10px;
+    }
+
+
+    .row {
+        margin-top: 20px;
+    }
+
+    /*fixednav*/
+    .fixednav {
+        position: fixed;
+        top: 50px;
+        left: 30%;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        position: fixed;
+        z-index: 999;
+        background-color: rgba(0, 123, 182, 0.8);
+    }
+
+    header ul {
+        height: 30px;
+        list-style-type: none;
+        padding-left: 25px;
+    }
+
+    header li {
+        float: left;
+        padding-right: 20px;
+
+    }
+
+    header li a {
+        text-decoration: none;
+        color: #D3D3D3;
+        font-size: 15px;
+        border-left: 3px solid #333333;
+        padding-left: 5px;
+    }
+
+    header li a:hover {
+        text-decoration: none;
+        color: #FFFFFF;
+        border-bottom: 3px solid #FFFFFF;
+    }
+
+    .div-a {
+        float: left;
+        width: 49%;
+        height: 400px;
+        border: 0;
+    }
+
+    .div-b {
+        float: right;
+        width: 49%;
+        height: 400px;
+        border: 0;
+    }
+
+    .login-button { /* 按钮美化 */
+        width: 100px; /* 宽度 */
+        height: 38px; /* 高度 */
+        border-width: 0px; /* 边框宽度 */
+        border-radius: 10px; /* 边框半径 */
+        background: #007BB6; /* 背景颜色 */
+        cursor: pointer; /* 鼠标移入按钮范围时出现手势 */
+        outline: none; /* 不显示轮廓线 */
+        font-family: Microsoft YaHei; /* 设置字体 */
+        color: white; /* 字体颜色 */
+        font-size: 20px; /* 字体大小 */
+    }
+
+    .login-button:hover { /* 鼠标移入按钮范围时改变颜色 */
+        background: #5599FF;
+    }
+
+
+</style>
+<link href="/static/cytoscape.js-panzoom-master/cytoscape.js-panzoom.css" rel="stylesheet" type="text/css"/>
+<link href="/static/cytoscape.js-panzoom-master/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet"
+      type="text/css"/>
+<script type="text/javascript" src="/static/cytoscape.js-panzoom-master/cytoscape-panzoom.js"></script>
+<style>
+    .active a {
+        text-decoration: none;
+        color: #5599FF;
+        border-bottom: 3px solid #FFFFFF;
+    }
+</style>
+<style type="text/css">
+    .tab {
+        position: fixed;
+        top: 50px;
+    {#left: 30%;#}{#border-bottom-right-radius: 5px;#}{#border-bottom-left-radius: 5px;#} position: fixed;
+        z-index: 999;
+    {#background-color: rgba(0,123,182, 0.8);#}
+    }
+
+    .tab .nav-tabs {
+        border-bottom: 0 none;
+        background: #eaeaea;
+    }
+
+    .tab .nav-tabs li a {
+        background: transparent;
+        border-radius: 0;
+        font-size: 16px;
+        border: none;
+        color: #333;
+        padding: 12px 22px;
+    }
+
+    .tab .nav-tabs li.active a, .tab .nav-tabs li.active a i {
+        border: 0 none;
+        background: #e67e22;
+        color: #fff;
+    }
+
+    .tab .nav-tabs li.active a:after {
+        content: "";
+        position: absolute;
+        left: 45%;
+        bottom: -14px;
+        border: 7px solid transparent;
+        border-top: 7px solid #e67e22;
+    }
+
+    .tab .tab-content {
+        padding: 5px;
+        color: #5a5c5d;
+        font-size: 14px;
+        line-height: 20px;
+        margin-top: 5px;
+        border-bottom: 1px solid #e67e22;
+    }
+
+    @media only screen and (max-width: 480px) {
+        .tab .nav-tabs, .tab .nav-tabs li {
+            width: 100%;
+            background: transparent;
+        }
+
+        .tab .nav-tabs li.active a {
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tab .nav-tabs li:first-child a {
+            border-bottom-left-radius: 0;
+        }
+
+        .tab .nav-tabs li a {
+            margin-bottom: 10px;
+            border: 1px solid lightgray;
+        }
+
+        .tab .nav-tabs li.active a:after {
+            border: none;
+        }
+    }
+</style>
+<style>
+    /*footer*/
+    .footer {
+        background-color: #007BB6;
+        width: 100%;
+        display: block;
+        height: 50px;
+        display: flex;
+        margin-top: 20px;
+        position: relative;
+    }
+
+    .foot a {
+        text-decoration: none;
+        color: #CCCCCC;
+    }
+
+    .foot a:hover {
+        text-decoration: none;
+        color: #fff;
+        border-bottom: 3px solid #FFFFFF;
+    }
+
+    .foot-p {
+        position: absolute;
+    {#top:100px;#} left: 40%;
+        text-align: center;
+    }
+</style>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129012764-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-129012764-1');
+</script>
+
+<body data-spy="scroll" data-target="#myScrollspy">
+<div class="container text-justify">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="accordion-group">
+                <div class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                        <div class='little_title'>
+                            <table width="100%">
+                                <tr>
+                                    <td width="85%">PPI network (data source: BioGrid)</td>
+                                    <td>
+                                        <button type="button" id="btn_legend" class="btn btn-warning">Legend
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-warning" onclick="Reset()">Refresh
+                                        </button>
+                                    </td>
+                                </tr>
+                                <script>
+                                    //注册Legend按钮的事件
+                                    $("#btn_legend").click(function () {
+                                        $("#myModalLabel").text("Legend");
+                                        $('#myModal').modal();
+                                    });
+                                </script>
+                            </table>
+                        </div>
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Legend</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-hover ">
+                                            <thead></thead>
+                                            <tbody>
+                                            <tr>
+                                                <p>
+                                                    A gene is determined as “expressed” when its expression values
+                                                    are above the pre-determined cutoff, which is the mean
+                                                    normalized expression(base 2 log of (TPM+1)) +1 in all brain
+                                                    tissue from GTEx v7 or BrainSpan data.
+                                                </p>
+                                                <p>
+                                                    A protein is determined as “expressed” when its expression
+                                                    values are above the pre-determined cutoff, which is the
+                                                    normalized expression (base 10 log of iBAQ intensity) ≥0.5 in at
+                                                    least one brain tissue from ProteomicsDB data. Otherwise, a gene
+                                                    or protein is determined as either with below-cutoff expressions
+                                                    or no available data.
+                                                </p>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/core.png"/></td>
+                                                <td>The queried gene/protein</td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/gene.png"></td>
+                                                <td>The interacting partner is expressed at mRNA-level</td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/protein.png"></td>
+                                                <td>
+                                                    The interacting partner is expressed at protein-level
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/both.png"></td>
+                                                <td>
+                                                    The interacting partner is expressed at both mRNA and protein
+                                                    level
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/neither.png"></td>
+                                                <td>
+                                                    The interacting partner is with either below-cutoff expressions
+                                                    or no expression data at both mRNA and protein level
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/mutation.png"></td>
+                                                <td>
+                                                    The interacting partner is hit by coding DNMs
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/direct.png"></td>
+                                                <td>Physical interaction between queried gene/protein and its
+                                                    partner
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><img src="/static/Img/PPI_point/indirectly.png"></td>
+                                                <td>Physical interaction between two interacting partners</td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                                class="glyphicon glyphicon-remove" aria-hidden="true"></span>Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="cy">
+                            <script type="text/javascript" src="/static/js/code.js"></script>
+                            <script type="text/javascript">
+                                window.onload = function () {
+                                    var fun = show; //引用show函数
+                                    var a = eval('{{nodes_edges|safe }}');
+                                    console.log(a);
+                                    var len = a.length;
+                                    if (len <= 10) {
+                                        div_cy = document.getElementById("cy");
+                                        div_cy.style.height = 180 + "px";
+                                    } else if (len > 10 && len <= 30) {
+                                        div_cy = document.getElementById("cy");
+                                        div_cy.style.height = 250 + "px";
+                                    } else if (len > 30 && len <= 60) {
+                                        div_cy = document.getElementById("cy");
+                                        div_cy.style.height = 350 + "px";
+                                    } else if (len > 60 && len <= 100) {
+                                        div_cy = document.getElementById("cy");
+                                        div_cy.style.height = 580 + "px";
+                                    } else {
+                                        div_cy = document.getElementById("cy");
+                                        div_cy.style.height = 800 + "px";
+                                    }
+                                    fun(a);
+                                };
+
+                                function Reset() {
+                                    var fun = show; //引用show函数
+                                    var a = eval('{{nodes_edges|safe }}');
+                                    fun(a);
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

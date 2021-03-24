@@ -1,8 +1,4 @@
 from itertools import chain
-import plotly
-from Visulize import a
-import plotly.graph_objs as go
-from plotly.graph_objs import *
 from utils.dbutils import DBConnection
 
 
