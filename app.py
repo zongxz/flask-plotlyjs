@@ -2,13 +2,14 @@ from flask import Flask, render_template, jsonify
 from Visulize import VisualizeHumanEPCExpress, VisualizeGtexGeneExpress, VisualizeMouseBrainExpress,\
     VisualizeProteinExpress, Transcript_DNMs_visualization, VisualizeDNMsOnRegulatoryElement, \
     VisualizeBrainSpanExpress, VisualizeProteinProteinNetwork
+from utils.dbutils import DBConnection
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_world():
-    return 'hello!!'
+    return render_template('tt.html')
 
 
 @app.route('/humanEPCExpressData')
@@ -35,8 +36,23 @@ def brainSpanExpress():
 
 @app.route('/gtexGeneExpressData')
 def gtexGeneExpressData():
-    data = VisualizeGtexGeneExpress.getGexGeneExpressData()
-    return jsonify(data)
+    # data = VisualizeGtexGeneExpress.getGexGeneExpressData()
+    dbc = DBConnection()
+
+    query_filed = {"entrez_id": 1, "symbol": 1, "_id": 0, 'gene_expression': 1}
+    name = "NSD2"
+    if name.isalnum():
+        if name.isdigit():
+            query_res = dbc.col.find({"entrez_id": name}, query_filed)[0]
+        else:
+            query_res = dbc.col.find({"symbol": name}, query_filed)[0]
+        # pprint(query_res)
+        if query_res.get('gene_expression'):
+            if query_res['gene_expression'].get('gtex_v7_gene_tpm'):
+                gtex_brain_data = query_res['gene_expression']['gtex_v7_gene_tpm']
+                if isinstance(gtex_brain_data, list):
+                    data = gtex_brain_data[0]
+                    return jsonify(data)
 
 
 @app.route('/VisualizeGtexGeneExpress')

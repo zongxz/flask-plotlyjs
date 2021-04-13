@@ -5,7 +5,7 @@ def getHumanEPCExpressData():
     dbc = DBConnection()
 
     query_filed = {"entrez_id": 1, "symbol": 1, "_id": 0, 'gene_expression': 1}
-    name = "85358"
+    name = "234"
     if name.isalnum():
         if name.isdigit():
             query_res = dbc.col.find({"entrez_id": name}, query_filed)[0]

@@ -30,9 +30,9 @@ function getData() {
                     list_tmp_striatum_ave.push(0);
                     list_tmp_striatum_num.push(0);
                 }
+                console.log(list_special_striatum);
                 for (let j = 0; j < 13; j++) {
                     if (list_special_striatum[j].length !== 0) {
-
                         for (let k = 0; k < list_special_striatum[j].length; k++) {
                             var item = list_special_striatum[j][k];
 

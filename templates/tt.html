@@ -3,92 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <!-- Latest compiled and minified plotly.js JavaScript -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+
+    <!-- OR use a specific plotly.js release (e.g. version 1.52.3) -->
+    <script src="https://cdn.plot.ly/plotly-1.52.3.min.js" charset="utf-8"></script>
+
+    <!-- OR an un-minified version is also available -->
+    <script src="https://cdn.plot.ly/plotly-latest.js" charset="utf-8"></script>
+
+    <style type="text/css">
+        .container {
+            padding-right: 0px;
+            padding-left: 0px;
+        }
+
+        .little_title {
+            color: #663333;
+            font-size: 24px;
+            font-family: "Verdana";
+            padding: 5px;
+            border-bottom: 3px solid #663333;
+        }
+
+        .col-md-12 {
+            margin-top: 10px;
+        }
+
+        .row {
+            margin-top: 20px;
+        }
+
+        header ul {
+            height: 30px;
+            list-style-type: none;
+            padding-left: 25px;
+        }
+
+        header li {
+            float: left;
+            padding-right: 20px;
+
+        }
+
+        header li a {
+            text-decoration: none;
+            color: #D3D3D3;
+            font-size: 15px;
+            border-left: 3px solid #333333;
+            padding-left: 5px;
+        }
+
+        header li a:hover {
+            text-decoration: none;
+            color: #FFFFFF;
+            border-bottom: 3px solid #FFFFFF;
+        }
+
+        .active a {
+            text-decoration: none;
+            color: white;
+            border-bottom: 3px solid #FFFFFF;
+        }
+    </style>
+    <style type="text/css">
+        .tab .nav-tabs li a {
+            background: transparent;
+            border-radius: 0;
+            font-size: 16px;
+            border: none;
+            color: #333;
+            padding: 12px 22px;
+        }
+
+        .tab .nav-tabs li.active a, .tab .nav-tabs li.active a i {
+            border: 0 none;
+            background: #e67e22;
+            color: #fff;
+        }
+
+        .tab .nav-tabs li.active a:after {
+            content: "";
+            position: absolute;
+            left: 45%;
+            bottom: -14px;
+            border: 7px solid transparent;
+            border-top: 7px solid #e67e22;
+        }
+
+        .tab .tab-content {
+            padding: 5px;
+            color: #5a5c5d;
+            font-size: 14px;
+            line-height: 20px;
+            margin-top: 5px;
+            border-bottom: 1px solid #e67e22;
+        }
+
+        @media only screen and (max-width: 480px) {
+            .tab .nav-tabs, .tab .nav-tabs li {
+                width: 100%;
+                background: transparent;
+            }
+
+            .tab .nav-tabs li.active a {
+                border-radius: 10px 10px 0 0;
+            }
+
+            .tab .nav-tabs li:first-child a {
+                border-bottom-left-radius: 0;
+            }
+
+            .tab .nav-tabs li a {
+                margin-bottom: 10px;
+                border: 1px solid lightgray;
+            }
+
+            .tab .nav-tabs li.active a:after {
+                border: none;
+            }
+        }
+    </style>
 </head>
-<script src="https://cdn.staticfile.org/echarts/5.0.2/echarts.js"></script>
+
 <body>
-<div id="main" style="width: 600px;height:400px;"></div>
-<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-    var l = {
-        name: '富国',
+<div class="col-md-12">
+    <div class="accordion-group">
+        <div class="accordion-body collapse in">
+            <div class="accordion-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Gtex Expression-->
+                        <div>
+                            <div class="little_title">
+                                Gene-level expression in different tissues (data source: GTEx v7)
+                            </div>
+                            <div id="gtexGeneExpress_box"></div>
+                            <script src="../static/js/gtexGeneExpress.js"></script>
+                            <hr/>
+                        </div>
+                        <!-- BainSpan-->
+                        <div class="row">
+                            <div class="col-md-12">
 
-        stack: '总量',
-        data: [120, 132, 101, 134],
-    };
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '折线图'
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-            }
-        },
-        legend: {
-            data: ['富国', '易方达', '嘉实', '南方', '华夏']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}    //下载为图片
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: true,     //控制折线起点
-            data: ['week1', 'week2', 'week3', 'week4'],
-        },
-        yAxis: {
-            name: '数值',
-            type: 'value',
-            min: 0,    // y轴刻度最小值
-            max: 2000,    // y轴刻度最大值
-            splitNumber: 10,   // y轴刻度间隔个数
-        },
-        series: [
-            {
-                name: l['name'],
-                stack: l['stack'],
-                data: l['data'],
-                type: 'line',
-            },
-            {
-                name: '易方达',
-                type: 'line',
-                stack: '总量',
-                data: [220, 182, 191, 234],
-            },
-            {
-                name: '嘉实',
-                type: 'scatter',
-                stack: '总量',
-                data: [150, 232, 201, 154],
-            },
-            {
-                name: '南方',
-                type: 'line',
-                stack: '总量',
-                data: [320, 332, 301, 334],
-            },
-            {
-                name: '华夏',
-                type: 'bar',
-                stack: '总量',
-                data: [920, 932, 901, 934]
-            }
-        ]
-    };
+                                <div class="little_title">
+                                    Spatio-temporal human developmental brain expression (data source:
+                                    BrainSpan)
+                                </div>
+                                <div id="BrainSpanExpress_box"></div>
+                                <script src="../static/js/brainSpanExpress.js"></script>
+                            </div>
+                        </div>
+                        <!-- BainSeq-->
+                        <div class="row">
+                            <div class="col-md-12">
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-</script>
+                                <div class="little_title">
+                                    Schizophrenia and control expression from BrainSeq
+                                    <a href="https://www.ncbi.nlm.nih.gov/pubmed/31174959"
+                                       target="_blank"><img src="/static/pumbed.gif"></a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- HumanBrain SinglrCell-->
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="little_title">
+                                    Human embryonic prefrontal cortex single cell expression
+                                    <a href="https://www.ncbi.nlm.nih.gov/pubmed/29539641"
+                                       target="_blank"><img src="/static/pumbed.gif"></a>
+                                </div>
+                                <div id="humanEPCExpress_box"></div>
+                                <script src="../static/js/humanEPCExpress.js"></script>
+                            </div>
+                        </div>
+                        <!-- MouseBrain Single Cell-->
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="little_title">
+                                    Adult mouse brain single cell expresssion
+                                    <a href="https://www.ncbi.nlm.nih.gov/pubmed/30096299"
+                                       target="_blank"><img src="/static/pumbed.gif"></a>
+                                </div>
+                                <div id="MouseBrainExpress_box"></div>
+                                <script src="../static/js/mouseBrainExpress.js"></script>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="little_title">
+                                    Protein expression (data source: Proteomics DB)
+                                </div>
+                                <div id="ProteinExpress_box"></div>
+                                <script src="../static/js/proteinExpress.js"></script>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 </body>
 </html>

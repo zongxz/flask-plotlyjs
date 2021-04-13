@@ -141,9 +141,11 @@ class dict_brainSpan():
         获取数据
         """
         max_value = 0
-        data = pd.DataFrame({str(id): data_brainSpan_value}, index=data_brainSpan_key).sort_index()[str(id)]
 
+        data = pd.DataFrame({str(id): data_brainSpan_value}, index=data_brainSpan_key).sort_index()[str(id)]
+        print(type(data))
         max_value = math.log2(max(data) + 1.0)
+        print(max_value)
         new_df = pd.DataFrame(brainSpan_key, index=['#Period index', 'brain region', 'period info']).T
         new_df[['#Period index']] = new_df[['#Period index']].apply(pd.to_numeric)
         new_df = new_df.sort_values(by=['brain region', '#Period index'])
@@ -205,6 +207,9 @@ def main(ID):
 
 
 def getBrainSpanData():
-    data = main("996")
-    print(main("996"))
+    data = main("23214")
     return data
+
+
+if __name__ == '__main__':
+    getBrainSpanData()

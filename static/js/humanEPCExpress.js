@@ -166,7 +166,9 @@ function getData() {
 
         },
         error: function (err) {
-            console.log("错误！");
+            var msg = '<div> There is no corresponding data published yet, ' +
+                        'we will update it when such data available.  </div>';
+            $("#humanEPCExpress_box").html(msg);
         }
     });
 
