@@ -11,6 +11,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "plotly.js": "^1.58.4",
+    "plotly.js-dist": "^1.58.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
