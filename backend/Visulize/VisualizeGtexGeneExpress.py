@@ -17,4 +17,7 @@ def getGexGeneExpressData():
                 gtex_brain_data = query_res['gene_expression']['gtex_v7_gene_tpm']
                 if isinstance(gtex_brain_data, list):
                     gtex_brain_data_dict = gtex_brain_data[0]
+                    print(gtex_brain_data_dict)
                     return gtex_brain_data_dict
+if __name__ == '__main__':
+    getGexGeneExpressData()

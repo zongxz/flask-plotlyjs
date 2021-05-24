@@ -6,6 +6,7 @@ function getData() {
         dataType: "json",
         data: {},
         success: function (data) {
+            console.log(data);
             var geneName = data[0];
             var others_type = data[1];
             var list_others_data = data[2];
@@ -30,7 +31,6 @@ function getData() {
                     list_tmp_striatum_ave.push(0);
                     list_tmp_striatum_num.push(0);
                 }
-                console.log(list_special_striatum);
                 for (let j = 0; j < 13; j++) {
                     if (list_special_striatum[j].length !== 0) {
                         for (let k = 0; k < list_special_striatum[j].length; k++) {

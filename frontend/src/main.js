@@ -4,7 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Plotly from 'plotly.js-dist'
+import axios from 'axios'
 
+Vue.prototype.$axios = axios // 定义为全局
 Vue.config.productionTip = false
 
 Vue.component('reactive-chart', {

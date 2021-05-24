@@ -16,11 +16,9 @@ function normalized(alist) {
         if ([0, ""].includes(alist[i])) {
             l.push(0);
         } else {
-            console.log(alist[i])
             l.push(Math.log10(alist[i] + 1.0).toFixed(2));
         }
     }
-    console.log(l)
     return l;
 }
 
@@ -58,6 +56,7 @@ function getData() {
         dataType: "json",
         data: {},
         success: function (data) {
+            console.log(data)
             var tarces = [];
             for (let i = 0; i < data.length; i++) {
                 var item = data[i];
@@ -109,29 +108,29 @@ function getData() {
             }
 
             var updatemenus = [{
-                    type: "buttons",
-                    active: -1,
-                    pad: {
-                        r: 30,
-                        t: 20,
-                    },
-                    buttons: [{
-                            label: "original TPM",
-                            method: "update",
-                            args: [{"visible": visible_list_1},
-                                {
-                                    "title": 'TPM without normalization',
-                                }]
-                        },
+                type: "buttons",
+                active: -1,
+                pad: {
+                    r: 30,
+                    t: 20,
+                },
+                buttons: [{
+                    label: "original TPM",
+                    method: "update",
+                    args: [{"visible": visible_list_1},
                         {
-                            label: "log<sub>10</sub> ( TPM + 1 )",
-                            method: "update",
-                            args: [{"visible": visible_list_2},
-                                {
-                                    "title": "Normalized TPM",
-                                }]
-                        }],
-                }]
+                            "title": 'TPM without normalization',
+                        }]
+                },
+                    {
+                        label: "log<sub>10</sub> ( TPM + 1 )",
+                        method: "update",
+                        args: [{"visible": visible_list_2},
+                            {
+                                "title": "Normalized TPM",
+                            }]
+                    }],
+            }]
             var layout = {
                 updatemenus: updatemenus,
                 paper_bgcolor: "rgb(249, 249, 249)",
@@ -162,12 +161,14 @@ function getData() {
                     t: 30,
                 }
             }
+            console.log(layout);
+            console.log(tarces);
             Plotly.plot('humanEPCExpress_box', tarces, layout)
 
         },
         error: function (err) {
             var msg = '<div> There is no corresponding data published yet, ' +
-                        'we will update it when such data available.  </div>';
+                'we will update it when such data available.  </div>';
             $("#humanEPCExpress_box").html(msg);
         }
     });

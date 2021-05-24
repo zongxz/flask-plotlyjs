@@ -1,7 +1,7 @@
 import pandas as pd
 import math
 import pymongo
-
+from pprint import pprint
 
 class DataStorage:
 
@@ -129,8 +129,10 @@ class Brain_Dic:
 class dict_brainSpan():
     def dict_gene2(self, id, data, brainDic):
         brainSpan_key = brainDic.brain_dic()
+
         data_brainSpan = data['BrainspanX'][0]
         data_brainSpan.pop('ENTREZ_ID')
+
         data_brainSpan_key = [int(i) for i in list(data_brainSpan.keys())]  # t
         data_brainSpan_value = [float(i) for i in list(data_brainSpan.values())]  # c
         """
@@ -143,9 +145,8 @@ class dict_brainSpan():
         max_value = 0
 
         data = pd.DataFrame({str(id): data_brainSpan_value}, index=data_brainSpan_key).sort_index()[str(id)]
-        print(type(data))
         max_value = math.log2(max(data) + 1.0)
-        print(max_value)
+
         new_df = pd.DataFrame(brainSpan_key, index=['#Period index', 'brain region', 'period info']).T
         new_df[['#Period index']] = new_df[['#Period index']].apply(pd.to_numeric)
         new_df = new_df.sort_values(by=['brain region', '#Period index'])
@@ -207,7 +208,7 @@ def main(ID):
 
 
 def getBrainSpanData():
-    data = main("23214")
+    data = main("85358")
     return data
 
 

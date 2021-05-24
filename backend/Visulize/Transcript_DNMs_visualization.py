@@ -1,6 +1,6 @@
 from itertools import chain
 from backend.utils.dbutils import DBConnection
-
+from pprint import pprint
 
 class DNMsOnTranscriptsPlot(object):
 
@@ -30,6 +30,7 @@ class DNMsOnTranscriptsPlot(object):
     def get_all_exton_region(self, list_3D):
         #####获取所有区域#####
         all_region = []
+        #pprint(list_3D)
         for item in list_3D:
             for item_item in chain(item[self.exton], item[self.utr3], item[self.utr5]):
                 all_region.append(item_item)
@@ -72,7 +73,6 @@ class DNMsOnTranscriptsPlot(object):
         return sum(x_list[:n])
 
     def get_every_frag_dnm_numbers(self, all_frag, DNM):
-
         DNM_list = [item[0] for item in DNM]
         DNM_list = list(set(DNM_list))
         DNM_list = sorted(DNM_list)
@@ -85,7 +85,6 @@ class DNMsOnTranscriptsPlot(object):
                     num[i] += 1
                 kk += 1
             i += 1
-
         return num
 
     def scale_fragment(self, all_frag, DNM):
@@ -148,6 +147,7 @@ class DNMsOnTranscriptsPlot(object):
                         temp1.append(scale_frag[j])
                         temp2.append(all_frag[j])
                     j += 1
+
             count.append(temp1)
             count1.append(temp2)
         count = self.combine_list_3D(count)
@@ -155,6 +155,7 @@ class DNMsOnTranscriptsPlot(object):
         return count, count1
 
     def count_to_xy(self, list_3D, count, count1):
+
         #####将片段转换成作画需要的坐标#####
         y = [item[0] for item in list_3D]
         xy = []
@@ -165,7 +166,6 @@ class DNMsOnTranscriptsPlot(object):
         return xy
 
     def DNM_sort_by_site(self, DNM):
-
         if DNM != [[]]:
             sorted_DNM = sorted(DNM, key=lambda x: x[0])
             return sorted_DNM
@@ -173,7 +173,6 @@ class DNMsOnTranscriptsPlot(object):
             return []
 
     def mapping_mutation_to_frag(self, all_frag, scale_frag, DNM=[]):
-
         DNM_list = [item[0] for item in DNM]
         DNM_list = list(set(DNM_list))
         DNM_list = sorted(DNM_list)
@@ -281,32 +280,29 @@ class DNMsOnTranscriptsPlot(object):
                 gene_data = \
                     dbc.col.find({"symbol": gene_term}, {"entrez_id": 1, "transcripts": 1, "dnms": 1, "_id": 0})[0]
             dnms_on_trans_plot = DNMsOnTranscriptsPlot()
-
+            pprint(gene_data)
             if gene_data:
-                # print(gene_data)
                 transcript_data = gene_data.get('transcripts')
-                # print('transcript_data')
-                # print(transcript_data)
                 dnms_data = gene_data.get('dnms')
-                # print('dnms_data')
-                # print(dnms_data)
                 transcript_list = []
                 trans_count = 0
                 dnm_list = []
                 if transcript_data:
                     for trans_item in transcript_data:
                         transcript_id = trans_item.get('transcript_id')
-                        # if trans_item.get('structure'):
                         transcript_structure = trans_item.get('structure')
                         region_list = []
                         for item_region in ['coding_exon_region', 'utr3_exon_region', 'utr5_exon_region']:
                             if transcript_structure.get(item_region):
+                                # print(transcript_structure[item_region])
                                 region_list.append(transcript_structure[item_region])
                             else:
                                 region_list.append([])
                         transcript_list.append([transcript_id, region_list[0], region_list[1], region_list[2]])
+
                     transcript_list = sorted(transcript_list, key=lambda x: x[0],
                                              reverse=True)  # 最先添加（排在最前面的）plotly画图的时候会放在越靠近x轴
+
                     trans_count = len(transcript_list)
                 if dnms_data:
                     for dnm_item in dnms_data:
@@ -321,12 +317,13 @@ class DNMsOnTranscriptsPlot(object):
                                 s = '%s,%s,%s' % (dnm_item['start'], dnm_item['variant'], dnm_item['Func_refGene'])
                             else:
                                 s = '%s,%s' % (dnm_item['start'], dnm_item['variant'])
+
                         dnm_list.append([dnm_item['start'], s])
+
                 else:
                     dnm_list.append([])
                 count_exon_xy, count_utr_xy, fin_DNM_xy = dnms_on_trans_plot.generate_xy(transcript_list, dnm_list)
                 if trans_count:
-
                     return [count_exon_xy, count_utr_xy, fin_DNM_xy, trans_count]
                 else:
                     return '<div>There is no corresponding data published yet, we will update it when such data available. </div>'
@@ -338,4 +335,7 @@ class DNMsOnTranscriptsPlot(object):
 
 
 def getTranscript_DNMsData():
-    return DNMsOnTranscriptsPlot.plot('29072')
+    return DNMsOnTranscriptsPlot.plot('85358')
+
+if __name__ == '__main__':
+    DNMsOnTranscriptsPlot.plot('85358')

@@ -19,7 +19,6 @@ function normalized(alist) {
             l.push(Math.log10(alist[i] + 1.0).toFixed(2));
         }
     }
-    console.log(l);
     return l;
 }
 
@@ -50,6 +49,7 @@ function getData() {
                         'we will update it when such data available.  </div>';
                 $("#MouseBrainExpress_box").html(msg);
             } else {
+
                 var tarces = [];
                 for (let i = 0; i < data.length; i++) {
                     var item = data[i];
@@ -61,6 +61,7 @@ function getData() {
                         datas = dropx(item[k]['data']);
                         period = item[k]['period']
                     }
+
                     tarces.push({
                         y: datas,
                         x: get_x(type, period),
@@ -70,6 +71,7 @@ function getData() {
                         type: 'box'
                     })
                 }
+
                 var len = tarces.length;
                 for (let i = 0; i < data.length; i++) {
                     var item = data[i];
@@ -80,6 +82,7 @@ function getData() {
                         type = k;
                         datas = normalized(item[k]['data']);
                         period = item[k]['period']
+
                     }
                     tarces.push({
                         y: datas,
@@ -92,7 +95,7 @@ function getData() {
                     })
                 }
 
-                console.log(tarces);
+
                 var visible_list_1 = [];
                 var visible_list_2 = [];
                 for (let i = 0; i < len; i++) {
@@ -161,7 +164,8 @@ function getData() {
                         t: 30,
                     },
                     // showlegend: false
-                }
+                }   
+                console.log(tarces);
                 Plotly.plot('MouseBrainExpress_box', tarces, layout);
             }
         },

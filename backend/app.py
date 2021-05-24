@@ -1,10 +1,10 @@
 from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 from backend.Visulize import VisualizeMouseBrainExpress
 from backend.Visulize import VisualizeDNMsOnRegulatoryElement, VisualizeGtexGeneExpress, Transcript_DNMs_visualization, \
-    VisualizeHumanEPCExpress, VisualizeProteinExpress, VisualizeBrainSpanExpress, VisualizeProteinProteinNetwork
-
+    VisualizeHumanEPCExpress, VisualizeProteinExpress, VisualizeBrainSpanExpress, VisualizeProteinProteinNetwork, a, b, d
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route('/')
 def hello_world():
@@ -32,6 +32,10 @@ def brainSpanData():
 def brainSpanExpress():
     return render_template('BrainSpanExpressPlot.html')
 
+@app.route('/brainSeqData')
+def brainSeqData():
+    data = b.a
+    return jsonify(data)
 
 @app.route('/gtexGeneExpressData')
 def gtexGeneExpressData():
@@ -44,9 +48,16 @@ def gtexGeneExpress():
     return render_template('GtexGeneExpressPlot.html')
 
 
+@app.route('/mouseBrainExpressData1')
+def mouseBrainExpressData1():
+    # data = VisualizeMouseBrainExpress.getMouseBrainExpressData()
+    data = a.a
+    return jsonify(data)
+
 @app.route('/mouseBrainExpressData')
 def mouseBrainExpressData():
-    data = VisualizeMouseBrainExpress.getMouseBrainExpressData()
+    # data = VisualizeMouseBrainExpress.getMouseBrainExpressData()
+    data = a.b
     return jsonify(data)
 
 
@@ -71,6 +82,10 @@ def transcript_DNMsData():
     data = Transcript_DNMs_visualization.getTranscript_DNMsData()
     return jsonify(data)
 
+@app.route('/Transcript_DNMsData1')
+def transcript_DNMsData1():
+    data = b.a
+    return jsonify(data)
 
 @app.route('/Transcript_DNMs')
 def transcript_DNMs():
@@ -82,6 +97,12 @@ def DNMsOnRegulatoryData():
     data = VisualizeDNMsOnRegulatoryElement.getDNMsOnRegulatoryData()
     return jsonify(data)
 
+@app.route('/DNMsOnRegulatoryData1')
+def DNMsOnRegulatoryData1():
+    # data = VisualizeDNMsOnRegulatoryElement.getDNMsOnRegulatoryData()
+    data = d.a
+    print(data)
+    return jsonify(data)
 
 @app.route('/DNMsOnRegulatory')
 def DNMsOnRegulatory():
