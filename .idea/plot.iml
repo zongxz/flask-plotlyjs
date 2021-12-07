@@ -16,6 +16,14 @@
     <orderEntry type="library" name="cytoscape" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="dataframe" level="application" />
+    <orderEntry type="library" name="xrange" level="application" />
+    <orderEntry type="library" name="oldie" level="application" />
+    <orderEntry type="library" name="exporting" level="application" />
+    <orderEntry type="library" name="highcharts" level="application" />
+    <orderEntry type="library" name="highcharts-more" level="application" />
+    <orderEntry type="library" name="lollipop" level="application" />
+    <orderEntry type="library" name="accessibility" level="application" />
+    <orderEntry type="library" name="dumbbell" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

@@ -12,6 +12,11 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cytoscape": "^3.19.0",
+    "dataframe-js": "^1.4.4",
+    "element-ui": "^2.15.6",
+    "highcharts": "^9.1.2",
+    "highcharts-vue": "^1.4.0",
     "plotly.js": "^1.58.4",
     "plotly.js-dist": "^1.58.4",
     "vue": "^2.5.2",

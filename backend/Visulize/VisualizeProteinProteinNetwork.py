@@ -1,6 +1,7 @@
 import pymongo
 import json
 from functools import reduce
+from pprint import pprint
 
 
 class DataStorage:
@@ -52,12 +53,13 @@ class DrawBioGridPPI:
     def draw_biogrid_ppi(self, id, f):
         ppi = f.FindPPI(id)
         all = f.FindByID(str(id))
+
         arr_nodes = []
         arr_edges = []
         dict_nodes = {}
         dict_edges = {}
         ppi_network = all.get('ppi_network')
-
+        pprint(ppi_network)
         all_ppi_point = ppi_network.get("ppi_points")
         mutation_count_list = ppi_network.get("dnm_count")
         protein_brain_exp_flag_list = ppi_network.get("protein_brain_express")
@@ -131,7 +133,7 @@ class DrawBioGridPPI:
         arr_edges = self.list_dict_duplicate_removal(arr_edges)
         arr_nodes.extend(arr_edges)
         results = json.dumps(arr_nodes)
-        # print(results)
+        pprint(results)
         return results
 
 

@@ -6,7 +6,6 @@ function getData() {
         dataType: "json",
         data: {},
         success: function (data) {
-            console.log(data);
             var geneName = data[0];
             var others_type = data[1];
             var list_others_data = data[2];
@@ -98,34 +97,6 @@ function getData() {
                     },
                     mode: 'lines'
                 });
-                // line_special.push({
-                //     series: [{
-                //         type: 'line',
-                //         data: list_tmp_cortex_ave,
-                //     }],
-                //     title: {
-                //         text: "cortex"
-                //     },
-                //     xAxis: {
-                //         data: attr,
-                //         type: "category",
-                //         interval: 0,
-                //         label_textsize: 9,
-                //         rotate: -30,
-                //     },
-                //     yAxis: {
-                //         type: 'value',
-                //         max: Math.ceil(max),
-                //         name:'LOG2(RPKM+1)',
-                //         name_pos: "middle",
-                //     },
-                //     legend: {
-                //         selectedmode: false,
-                //         pos: '10%',
-                //         orient: "horizontal"
-                //     },
-                //     is_smooth: true,
-                // });
                 var max_length_striatum = 0;
                 for (let j = 0; j < list_special_striatum.length; j++) {
                     var item = list_special_striatum[j];
@@ -200,8 +171,10 @@ function getData() {
                     });
                 }
                 var t = 0;
+                console.log(others_type);
                 for (let j = 0; j < others_type.length; j++) {
-                    var item = others_type[i];
+                    var item = others_type[j];
+                    console.log(item);
                     traces.push({
                         x: attr,
                         y: list_others_data[t],

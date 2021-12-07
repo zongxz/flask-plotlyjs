@@ -2,13 +2,16 @@ from flask import Flask, render_template, jsonify
 from flask_cors import CORS
 from backend.Visulize import VisualizeMouseBrainExpress
 from backend.Visulize import VisualizeDNMsOnRegulatoryElement, VisualizeGtexGeneExpress, Transcript_DNMs_visualization, \
-    VisualizeHumanEPCExpress, VisualizeProteinExpress, VisualizeBrainSpanExpress, VisualizeProteinProteinNetwork, a, b, d
+    VisualizeHumanEPCExpress, VisualizeProteinExpress, VisualizeBrainSpanExpress, \
+    VisualizeProteinProteinNetwork, a, b, d, e
+
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/')
 def hello_world():
-    return render_template('tt.html')
+    return render_template('棒棒糖图.html')
 
 
 @app.route('/humanEPCExpressData')
@@ -32,10 +35,12 @@ def brainSpanData():
 def brainSpanExpress():
     return render_template('BrainSpanExpressPlot.html')
 
+
 @app.route('/brainSeqData')
 def brainSeqData():
     data = b.a
     return jsonify(data)
+
 
 @app.route('/gtexGeneExpressData')
 def gtexGeneExpressData():
@@ -53,6 +58,7 @@ def mouseBrainExpressData1():
     # data = VisualizeMouseBrainExpress.getMouseBrainExpressData()
     data = a.a
     return jsonify(data)
+
 
 @app.route('/mouseBrainExpressData')
 def mouseBrainExpressData():
@@ -82,10 +88,12 @@ def transcript_DNMsData():
     data = Transcript_DNMs_visualization.getTranscript_DNMsData()
     return jsonify(data)
 
+
 @app.route('/Transcript_DNMsData1')
 def transcript_DNMsData1():
     data = b.a
     return jsonify(data)
+
 
 @app.route('/Transcript_DNMs')
 def transcript_DNMs():
@@ -97,12 +105,13 @@ def DNMsOnRegulatoryData():
     data = VisualizeDNMsOnRegulatoryElement.getDNMsOnRegulatoryData()
     return jsonify(data)
 
+
 @app.route('/DNMsOnRegulatoryData1')
 def DNMsOnRegulatoryData1():
     # data = VisualizeDNMsOnRegulatoryElement.getDNMsOnRegulatoryData()
     data = d.a
-    print(data)
     return jsonify(data)
+
 
 @app.route('/DNMsOnRegulatory')
 def DNMsOnRegulatory():
@@ -116,5 +125,16 @@ def GeneDetailPPI():
     return render_template('GeneDetail_PPI.html', nodes_edges=nodes_edges, id=7468)
 
 
+@app.route('/PPI')
+def GeneDetailPPI1():
+    data = e.b
+    return jsonify(data)
+
+
+@app.route('/HiChart')
+def HiChart():
+    return render_template('棒棒糖图.html')
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='127.0.0.1', port=5000, debug=True)

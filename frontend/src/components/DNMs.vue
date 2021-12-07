@@ -516,8 +516,10 @@ export default {
           }
           // eslint-disable-next-line camelcase
           let transcript_data = res.data[0]
+          console.log(transcript_data)
           // eslint-disable-next-line camelcase
           let dnms_data = res.data[1]
+          console.log(dnms_data)
           // eslint-disable-next-line camelcase
           let transcript_list = []
           // // eslint-disable-next-line camelcase

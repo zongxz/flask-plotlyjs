@@ -1007,7 +1007,6 @@ export default {
           let final_dnm = mapping_mutation_to_frag(all_frag, scale_frag, dnm_data)
           // eslint-disable-next-line camelcase
           let dnm_plot_data = convert_dnms_to_xy(final_dnm)
-          console.log(dnm_plot_data)
           let trace = []
           for (let i = 0; i < exton_plot_data.length; i++) {
             let item = exton_plot_data[i]
@@ -1145,6 +1144,7 @@ export default {
             }
             trace.push(trace_item)
           }
+          console.log(trace)
           let layout = {
             paper_bgcolor: 'rgb(249, 249, 249)',
             plot_bgcolor: 'rgb(249, 249, 249)',

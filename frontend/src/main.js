@@ -5,7 +5,13 @@ import App from './App'
 import router from './router'
 import Plotly from 'plotly.js-dist'
 import axios from 'axios'
+import cytoscape from 'cytoscape'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
+Vue.use(ElementUI);
+
+Vue.prototype.cytoscape = cytoscape
 Vue.prototype.$axios = axios // 定义为全局
 Vue.config.productionTip = false
 

@@ -1953,3 +1953,5 @@ a = {'dnms': [{'ExonicFunc_refGene': 'stopgain',
                       'transcript_id': 'NM_033517',
                       'uniprotKB_id': ['SHAN3_HUMAN'],
                       'uniprotkb_ac': ['Q9BYB0']}]}
+
+print(a['promoter'])
